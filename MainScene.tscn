@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.784314, 0, 0.843137, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 0.882353, 0, 0, 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Bob"
+length = 0.38
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1875, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0.15, 0 ), Vector3( 0, 0, 0 ) ]
+}
+
+[node name="Spatial" type="Spatial"]
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( -0.707107, -0.612372, 0.353553, 0, 0.5, 0.866025, -0.707107, 0.612372, -0.353553, 0, 10, 0 )
+shadow_enabled = true
+
+[node name="CameraPivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.819152, 0.573576, 0, -0.573576, 0.819152, 0, 2, 0 )
+
+[node name="Camera" type="Camera" parent="CameraPivot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5 )
+current = true
+
+[node name="Floor" type="CSGBox" parent="."]
+use_collision = true
+width = 6.5
+depth = 30.0
+
+[node name="Player" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="Body" type="CSGBox" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0215763, 0 )
+use_collision = true
+material = SubResource( 1 )
+
+[node name="Hat" type="CSGBox" parent="Player/Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+width = 2.05
+height = 0.55
+depth = 2.05
+material = SubResource( 2 )
+
+[node name="Hat Brim" type="CSGBox" parent="Player/Body/Hat"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 1.4 )
+width = 2.05
+height = 0.1
+depth = 0.75
+material = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+autoplay = "Bob"
+anims/Bob = SubResource( 4 )
